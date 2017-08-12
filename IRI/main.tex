@@ -74,7 +74,8 @@ headsepline, % Uncomment to get a line under the header
 \author{Raphaël \textsc{Abellan--Romita}} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
 \addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
 
-\subject{Robotics} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
+\subtitle{Obstacle avoidance with robust path generation}
+\subject{Robotics} % Your subject area, this is used in the title page, print it elsewhere with \subjectname
 \keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
 \university{\href{http://www.ensta-bretagne.fr/}{ENSTA Bretagne}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
 \department{SPID} % Your department's name and URL, this is used in the title page and abstract, print it elsewhere with \deptname
@@ -96,69 +97,39 @@ headsepline, % Uncomment to get a line under the header
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
+\begin{titlepage} % Suppresses headers and footers on the title page
 
-\begin{titlepage}
-\begin{center}
+	\raggedleft % Right align everything
 
-\vspace*{.06\textheight}
-{\scshape\LARGE \univname\par}\vspace{1.5cm} % University name
-\textsc{\Large Internship Report}\\[0.5cm] % Thesis type
+	\vspace*{\baselineskip} % Whitespace at the top of the page
 
-\HRule \\[0.4cm] % Horizontal line
-{\huge \bfseries \ttitle\par}\vspace{0.4cm} % Thesis title
-\HRule \\[1.5cm] % Horizontal line
+	%------------------------------------------------
+	%	Author
+	%------------------------------------------------
 
-\begin{minipage}[t]{0.4\textwidth}
-\begin{flushleft} \large
-\emph{Author:}\\
-\href{http://origanimes.free.fr/}{\authorname} % Author name - remove the \href bracket to remove the link
-\end{flushleft}
-\end{minipage}
-\begin{minipage}[t]{0.4\textwidth}
-\begin{flushright} \large
-\emph{Supervisor:} \\
-\supname % Supervisor name - remove the \href bracket to remove the link
-\end{flushright}
-\end{minipage}\\[3cm]
+	{\Large \href{http://origanimes.free.fr/}{\authorname}} % Author name
 
-\vfill
+	\vspace*{0.167\textheight} % Whitespace before the title
 
-\large \textit{A Internship report submitted in fulfillment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
-\textit{in the}\\[0.4cm]
-\groupname\\\deptname\\[2cm] % Research group name and department name
+	%------------------------------------------------
+	%	Title and subtitle
+	%------------------------------------------------
 
-\vfill
+	\textbf{\LARGE \subjectname}\\[\baselineskip] % First title line
 
-{\large \today}\\[4cm] % Date
-%\includegraphics{Logo} % University/department logo - uncomment to place it
+	{\textcolor{Red}{\Huge \LaTeX \ttitle}}\\[\baselineskip] % Main title line which draws the focus of the reader
 
-\vfill
-\end{center}
+	{\Large \textit{\subtitlename}} % Subtitle
+
+	\vfill % Whitespace between the titles and the publisher
+
+  \large \textit{A Internship report submitted in fulfillment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
+  \textit{in the}\\[0.4cm]
+  \groupname\\\deptname\\[2cm] % Research group name and department name
+
+	\vspace*{3\baselineskip} % Whitespace at the bottom of the page
+
 \end{titlepage}
-
-%----------------------------------------------------------------------------------------
-%	DECLARATION PAGE
-%----------------------------------------------------------------------------------------
-
-\begin{declaration}
-\addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
-\noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that:
-
-\begin{itemize}
-\item This work was done wholly or mainly while in candidature for a research degree at this University.
-\item Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
-\item Where I have consulted the published work of others, this is always clearly attributed.
-\item Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
-\item I have acknowledged all main sources of help.
-\item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
-\end{itemize}
-
-\noindent Signed:\\
-\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
-
-\noindent Date:\\
-\rule[0.5em]{25em}{0.5pt} % This prints a line to write the date
-\end{declaration}
 
 \cleardoublepage
 
@@ -182,15 +153,6 @@ The Thesis Abstract is written here (and usually kept to just this page). The pa
 \end{abstract}
 
 %----------------------------------------------------------------------------------------
-%	ACKNOWLEDGEMENTS
-%----------------------------------------------------------------------------------------
-
-\begin{acknowledgements}
-\addchaptertocentry{\acknowledgementname} % Add the acknowledgements to the table of contents
-The acknowledgments and the people to thank go here, don't forget to include your project advisor\ldots
-\end{acknowledgements}
-
-%----------------------------------------------------------------------------------------
 %	LIST OF CONTENTS/FIGURES/TABLES PAGES
 %----------------------------------------------------------------------------------------
 
@@ -199,52 +161,6 @@ The acknowledgments and the people to thank go here, don't forget to include you
 \listoffigures % Prints the list of figures
 
 \listoftables % Prints the list of tables
-
-%----------------------------------------------------------------------------------------
-%	ABBREVIATIONS
-%----------------------------------------------------------------------------------------
-
-\begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
-
-\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere\\
-\textbf{WSF} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or\\
-
-\end{abbreviations}
-
-%----------------------------------------------------------------------------------------
-%	PHYSICAL CONSTANTS/OTHER DEFINITIONS
-%----------------------------------------------------------------------------------------
-
-\begin{constants}{lr@{${}={}$}l} % The list of physical constants is a three column table
-
-% The \SI{}{} command is provided by the siunitx package, see its documentation for instructions on how to use it
-
-Speed of Light & $c_{0}$ & \SI{2.99792458e8}{\meter\per\second} (exact)\\
-%Constant Name & $Symbol$ & $Constant Value$ with units\\
-
-\end{constants}
-
-%----------------------------------------------------------------------------------------
-%	SYMBOLS
-%----------------------------------------------------------------------------------------
-
-\begin{symbols}{lll} % Include a list of Symbols (a three column table)
-
-$a$ & distance & \si{\meter} \\
-$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
-%Symbol & Name & Unit \\
-
-\addlinespace % Gap to separate the Roman symbols from the Greek
-
-$\omega$ & angular frequency & \si{\radian} \\
-
-\end{symbols}
-
-%----------------------------------------------------------------------------------------
-%	DEDICATION
-%----------------------------------------------------------------------------------------
-
-\dedicatory{For/Dedicated to/To my\ldots}
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS
