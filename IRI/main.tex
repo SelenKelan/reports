@@ -29,8 +29,8 @@ english, % ngerman for German
 singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
 %draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
 %nolistspacing, % If the document is onehalfspacing or doublespacing, uncomment this to set spacing in lists to single
-%liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
-%toctotoc, % Uncomment to add the main table of contents to the table of contents
+liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
+toctotoc, % Uncomment to add the main table of contents to the table of contents
 %parskip, % Uncomment to add space between paragraphs
 %nohyperref, % Uncomment to not load the hyperref package
 headsepline, % Uncomment to get a line under the header
@@ -74,7 +74,7 @@ headsepline, % Uncomment to get a line under the header
 \author{Raphaël \textsc{Abellan--Romita}} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
 \addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
 
-\subtitle{Obstacle avoidance with robust path generation}
+\subtitle{Obstacle avoidance with robust path generation}%internship title, this is used in the title page, the abstract, the résumé, print it anywhere with \subtitlename
 \subject{Robotics} % Your subject area, this is used in the title page, print it elsewhere with \subjectname
 \keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
 \university{\href{http://www.ensta-bretagne.fr/}{ENSTA Bretagne}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
@@ -117,7 +117,7 @@ headsepline, % Uncomment to get a line under the header
 
 	\textbf{\LARGE \subjectname}\\[\baselineskip] % First title line
 
-	{\textcolor{Red}{\Huge \LaTeX \ttitle}}\\[\baselineskip] % Main title line which draws the focus of the reader
+	{\textcolor{mdtRed}{\Huge \ttitle}}\\[\baselineskip] % Main title line which draws the focus of the reader
 
 	{\Large \textit{\subtitlename}} % Subtitle
 
@@ -173,11 +173,13 @@ The Thesis Abstract is written here (and usually kept to just this page). The pa
 % Include the chapters of the thesis as separate files from the Chapters folder
 % Uncomment the lines as you write the chapters
 
-\include{Chapters/Chapter1}
-%\include{Chapters/Chapter2}
-%\include{Chapters/Chapter3}
-%\include{Chapters/Chapter4}
-%\include{Chapters/Chapter5}
+\include{Chapters/context}
+\include{Chapters/theme}
+\include{Chapters/technic}
+\include{Chapters/economic}
+\include{Chapters/apport}
+\include{Chapters/conclusion}
+
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES

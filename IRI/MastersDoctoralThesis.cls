@@ -340,6 +340,7 @@ KOMA-script documentation for details.}]{fancyhdr}
 \DeclareDocumentCommand{\abstractauthorfont}{}{}
 \DeclareDocumentCommand{\abstracttitlefont}{}{}
 \newcommand{\byname}{by}
+\newcommand{\atlocation}{ at }
 \newcommand{\abstractname}{Abstract}
 \providecaptionname{german,ngerman,austrian,naustrian}{\byname}{von}
 \providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish}{\byname}{by}
@@ -359,14 +360,11 @@ KOMA-script documentation for details.}]{fancyhdr}
 		#1%added to be able to have abstract more than one page long
 		\thispagestyle{plain}
 		\begin{center}
-			{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
-			\bigskip
 			{\huge\textit{\abstractname} \par}
 			\bigskip
-			{\normalsize \facname \par} % Faculty name
-			{\normalsize \deptname \par} % Department name
+			{\normalsize \degreename \atlocation{} \facname \par} % degree and Faculty name
 			\bigskip
-			{\normalsize \degreename\par} % Degree name
+			{\normalsize \subtitlename \par} % theme of internship
 			\bigskip
 			{\normalsize\bfseries \@title \par} % Thesis title
 			\medskip
@@ -385,9 +383,75 @@ KOMA-script documentation for details.}]{fancyhdr}
 	#1%added to be able to have abstract more than one page long
 	\thispagestyle{empty}
 	\begin{center}
+	{\huge\textit{\abstractname} \par}
+	\bigskip
+	{\normalsize \degreename \atlocation{} \facname \par} % degree and Faculty name
+	\bigskip
+	{\normalsize \subtitlename \par} % theme of internship
+	\bigskip
+	{\normalsize\bfseries \@title \par} % Thesis title
+	\medskip
+	{\normalsize \byname{} \authorname \par} % Author name
+	\bigskip
+	\end{center}
+}
+{
+	\vfill\null
+}
+
+%----------------------------------------------------------------------------------------
+%	RESUME PAGE DESIGN
+%----------------------------------------------------------------------------------------
+
+\DeclareDocumentCommand{\abstractauthorfont}{}{}
+\DeclareDocumentCommand{\abstracttitlefont}{}{}
+\newcommand{\resumename}{Résumé}
+\newcommand{\parnom}{par}
+
+\providecaptionname{german,ngerman,austrian,naustrian}{\byname}{von}
+\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish}{\byname}{by}
+\ifbool{consistentlayout}{
+	\DeclareDocumentEnvironment{resume}{ O{} }{%
+		\addchap*{\resumename}%
+		{\chapteralign\normalsize\abstractauthorfont \authorname \par} % Author name
+		\vspace{\baselineskip}
+		{\chapteralign\parbox{.7\linewidth}{\chapteralign\normalsize\itshape\abstracttitlefont\@title}\par}% Thesis title
+		\bigskip\noindent\ignorespaces
+	}%
+	{}%end alt-abstract
+}{%
+	\DeclareDocumentEnvironment{resume}{ O{\null\vfill} }{
+		\checktoopen
+		\tttypeout{\resumename}
+		#1%added to be able to have abstract more than one page long
+		\thispagestyle{plain}
+		\begin{center}
+			{\huge\textit{\resumename} \par}
+			\bigskip
+			{\normalsize \degreename \atlocation{} \facname \par} % degree and Faculty name
+			\bigskip
+			{\normalsize \subtitlename \par} % theme of internship
+			\bigskip
+			{\normalsize\bfseries \@title \par} % Thesis title
+			\medskip
+			{\normalsize \byname{} \authorname \par} % Author name
+			\bigskip
+		\end{center}
+	}
+	{
+		\vfill\null
+	}
+}
+
+\DeclareDocumentEnvironment{extraresume}{ O{\null\vfill} }{
+	\checktoopen
+	\tttypeout{\resumename}
+	#1%added to be able to have abstract more than one page long
+	\thispagestyle{empty}
+	\begin{center}
 		{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
 		\bigskip
-		{\huge\textit{\abstractname} \par}
+		{\huge\textit{\resumename} \par}
 		\bigskip
 		{\normalsize \facname \par} % Faculty name
 		{\normalsize \deptname \par} % Department name
@@ -524,7 +588,7 @@ bookmarksopenlevel=0,
 hypertexnames=false,
 colorlinks=true, % Set to false to disable coloring links
 citecolor=magenta, % The color of citations
-linkcolor=red, % The color of references to document elements (sections, figures, etc)
+linkcolor=black, % The color of references to document elements (sections, figures, etc)
 urlcolor=mdtRed, % The color of hyperlinks (URLs)
 pdfstartview={FitV},
 unicode,
