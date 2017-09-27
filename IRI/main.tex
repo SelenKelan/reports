@@ -48,6 +48,7 @@ headsepline, % Uncomment to get a line under the header
 \addbibresource{biblio.bib} % The filename of the bibliography
 
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
+\usepackage{listings}
 
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
@@ -149,7 +150,14 @@ headsepline, % Uncomment to get a line under the header
 
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
-From a simulation of simple sensors, I had to design a method of control using the returned values from these sensors, which where quite noisy.
+During an internship at the Universitat Politècnica de Catalunya, I worked on a simulated environement.
+In that environement, I had to design a trajectory tracking strategy robust enough to work even with very noisy sensor values.
+
+I also had to modify a program using box particle filtering to diminish the noise of the sensors.
+Such modifications allowed me to get better sensor values, although those were sometimes a bit erratic and random.
+
+Once done, I added an obstacle avoidance algorithm through a vector field, predicting the future position of the bot, given all the boxes in which the robot had chances to be in in the next step.
+
 
 \end{abstract}
 
@@ -172,6 +180,7 @@ From a simulation of simple sensors, I had to design a method of control using t
 \textbf{UPC} & \textbf{U}niversitat \textbf{P}olitècnica de \textbf{C}atalunya\\
 \textbf{BPF} & \textbf{B}ox \textbf{P}article \textbf{F}iltering\\
 \textbf{GUI} & \textbf{G}raphical \textbf{U}ser \textbf{I}nterface\\
+\textbf{ERL} & \textbf{E}uropean \textbf{R}obotic \textbf{L}eague
 
 \end{abbreviations}
 %----------------------------------------------------------------------------------------

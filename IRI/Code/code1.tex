@@ -1,0 +1,34 @@
+{\small
+\begin{lstlisting}[frame=single]
+for k=1:N
+    %display iteration number
+    disp(k);
+    %create control vector
+    % xc,dxc,ddxc,vc,thetac : full state of consign robot (position,
+    % derivative, second derivative, speed, and angle)
+    [xc,dxc,ddxc,vc,thetac]=consigne(k,ts);
+    ur=control([x_med2 theta_measure v_measure],xc,dxc);
+    %new step for the state of the system
+    [x,v,theta,v_measure, theta_measure, pe, U]=realState(N, x, v, theta,ur, ts,S,NS);
+    %box particle filtering
+    [w_box_1,w_box_2,x_med] = Boxfilter1(Boxes,ts,stateF,U,pe,w_boxes{k});
+    x_med_box(k,:)=x_med;
+    w_boxes{k}=w_box_1;
+    w_boxes{k+1}=w_box_2;
+    %low pass filter (gliding median) on median position from BPF
+    if k>5
+        x_med2=sum(x_med_box(k-5:k,:))/5;
+    else
+        x_med2=x_med;
+    end
+    %creating positions of real, self-measured and consign robots
+    x_tank=[x(1);x(2);theta]; % real robot
+    xm_tank=[x_med2(1);x_med2(2);theta_measure]; %measured robot
+    xc_tank=[xc; thetac]; %consign robot
+    %saving those positions in lists.
+    x_tank_list(:,k)=x_tank;
+    xm_tank_list(:,k)=xm_tank;
+    xc_tank_list(:,k)=xc_tank;
+end
+\end{lstlisting}
+}
