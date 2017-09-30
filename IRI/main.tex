@@ -49,6 +49,10 @@ headsepline, % Uncomment to get a line under the header
 
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
 \usepackage{listings}
+\renewcommand{\lstlistingname}{Code}
+\usepackage{float}
+\usepackage{pdfpages}
+\usepackage{amsmath}
 
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
@@ -180,7 +184,8 @@ Once done, I added an obstacle avoidance algorithm through a vector field, predi
 \textbf{UPC} & \textbf{U}niversitat \textbf{P}olitècnica de \textbf{C}atalunya\\
 \textbf{BPF} & \textbf{B}ox \textbf{P}article \textbf{F}iltering\\
 \textbf{GUI} & \textbf{G}raphical \textbf{U}ser \textbf{I}nterface\\
-\textbf{ERL} & \textbf{E}uropean \textbf{R}obotic \textbf{L}eague
+\textbf{ERL} & \textbf{E}uropean \textbf{R}obotic \textbf{L}eague\\
+\textbf{IMU} & \textbf{I}nertial \textbf{M}easurement \textbf{U}nit\\
 
 \end{abbreviations}
 %----------------------------------------------------------------------------------------
@@ -211,7 +216,7 @@ Once done, I added an obstacle avoidance algorithm through a vector field, predi
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
 
-%\include{Appendices/AppendixA}
+\include{Appendices/AppendixA}
 %\include{Appendices/AppendixB}
 %\include{Appendices/AppendixC}
 

@@ -56,7 +56,8 @@ Key advantages of the box particle filter against the standard particle filter a
 
 Indeed, in some applications where the sampling importance resampling PF may require thousands of particles to achieve accurate and reliable performance, the box-PF can reach the same level of accuracy with just a few dozen box particles."\parencite{BPF}
 
-As seen, the BPF is an efficient system of filtering
+As seen, the BPF is an efficient filter in our case. Aimed mainly at imprecise mesurements, and using interval analysis, it intergrates perfectly with what we are looking for.
+
 \subsubsection{The Main}
 Two more files are used in the program.\\
 
@@ -101,7 +102,13 @@ To compensate, a low-pass filter was added, by using a sliding median of the las
 Although such a system means that the correction is a bit late, it suppresses most of the eratical behavior from the self-perceived bot.
 Giving more weigth to the last value was tested, but the eratical behavior came back with too much force, so the idea was droped.
 More tests were made with a sliding median on more or less values, but five was the best compromise.
-The system was only around two steps late, so about 1/10th of a second.
+The system was only around two steps late, so about 1/10th of a second.\\
+
+This kind of treatment is often used on real robots.
+Usually, sensors have a hight communication rate (around 500Hz for an IMU) whereas actuator control board work around 10Hz.
+That kind of differences means that, on real robots, sudden spikes and outliers from sensors can be minimized without impacting the rate of information sent to actuators.
+Sadly, on this simulation, the sensor rate was limited by the BPF calculation rate.
+Eventually, I used a sliding median, but the tradeoff was the slight lateness of the control algorithm.\\
 
 \subsection{Testing methods and taking control}
 
@@ -112,7 +119,43 @@ This system was too unstable or too slow.
 As it is often the case for proportionnal control, the bot would either overshoot, or not be able to reach the deignated trajectory.\\
 
 The next step was using a proportionnal derivative method. This solved the overshoot problems I had, and the corrections were much faster.
+This system was based on a feedback linearization, as described in \parencite{ROBMOOC}.
 It was implemented in a simple way, by adding a control variable named U.\\
+
+\input{Code/control}
+
+In this code, we suppose the existence of a nonlinear system described by:\\
+
+\begin{equation}
+\left \{
+\begin{array}{r c l}
+   \dot{x} & = & f(x) + g(x)u \\
+   y & = & h(x)
+\end{array}
+\right .
+\end{equation}
+
+This system describes the movements of our simulated robot. By differenciating $y_i$ until inputs are involved inthe expression of the derivative, we obtain:
+
+\begin{equation}
+  \begin{pmatrix}
+    y_{1}^{(k_1)} \\
+    \vdots \\
+    y_{m}^{(k_m)}
+  \end{pmatrix}
+  = A(x)u + b(x)
+\end{equation}
+
+If we suppose that $A$ is invertible, we can write:
+
+\begin{equation}
+  \label{eq2}
+  u = A^{-1}(x)(v - b(x))
+\end{equation}
+
+Thus, going back to the code \ref{controlcode}, each member of the equation \ref{eq2} can be joined with the similarly named variable in the code.\\
+
+Once the control loop has been established, we need to add it in a main loop.
 
 The Main loop in this program is copied here :\\
 
@@ -121,8 +164,7 @@ The Main loop in this program is copied here :\\
 As seen in this code, each step of trajectory calculation is immediately followed by a step of BPF on the information given by the simulated sensors. \\
 
 
-
-I also tried to adapt a H-infinity control method, but a few problems blocked my way.
+As a side note, I also tried to adapt a H-infinity control method, but a few problems blocked my way.
 The more evident one was that the model I used was far from enough for this method to yield good results.
 And of course, the use of a BPF resulted sometimes in singularities or in a kind of saturation that rendered the method completely unusable.
 
@@ -145,30 +187,37 @@ I then tried to use various parts of the map, first creating a single vector, th
 \subsection{Creating a vector field}
 \label{vectf}
 
-I had to devise a way for the robot to be aware of his suroundings as a whole.
- I created a small sub-program able to infer a repulsive vector field from an image of the obstacles.
- This program had two parts. First, a repulsive vector is added in each box next to an obstacle.
+I had to devise a way for the robot to be aware of his suroundings as a whole.\\
+
+\input{Code/fieldmat}
+
+I created a small sub-program able to infer a repulsive vector field from an image of the obstacles.\\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Figures/quiver1}
+\decoRule
+\caption[Basic Quiver]{Quiver of basic vector field created from the obstacles.}
+\label{fig:quiver1}
+\end{figure}
+
+
+ This program has two parts. First, a repulsive vector is added in each box next to an obstacle.
  This creates a series of vectors each of equal power, as seen in Figure \ref{fig:quiver1}.\\
 
- \begin{figure}[ht]
- \centering
- \includegraphics[scale=0.4]{Figures/quiver1}
- \decoRule
- \caption[Basic Quiver]{Quiver of basic vector field created from the obstacles.}
- \label{fig:quiver1}
- \end{figure}
-
- After that, a gaussian blur is added to the matrix, using a bigger parameter on the obstacle parts than on the free parts of the playground.
- This ensures that, if the self-perceived robot gets in an obstacle, it will be repulsed with force.
- The result of the blur can be seen on Figure \ref{fig:quiver2}\\
-
- \begin{figure}[ht]
+ \begin{figure}[H]
  \centering
  \includegraphics[scale=0.4]{Figures/quiver2}
  \decoRule
  \caption[Blurred Quiver]{Gaussian blur added to the first vector field.}
  \label{fig:quiver2}
  \end{figure}
+
+ After that, a gaussian blur is added to the matrix, using a bigger parameter on the obstacle parts than on the free parts of the playground.
+ This ensures that, if the self-perceived robot gets in an obstacle, it will be met by a stonger repulsive force.
+ The result of the blur can be seen on Figure \ref{fig:quiver2}\\
+
+
 
 %\input{Code/fieldmat}
 
@@ -183,7 +232,7 @@ Those choices will be reflected on the vizualisation after clicking on show.\\
 
 The simulation length and the percentile of boxes shown can be ajusted via two sliders. Those are usefull to mitigate the precision of the simulation with the time spent on calculations.\\
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{Figures/Gui}
 \decoRule
