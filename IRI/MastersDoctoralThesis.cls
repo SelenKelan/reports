@@ -405,7 +405,7 @@ KOMA-script documentation for details.}]{fancyhdr}
 
 \DeclareDocumentCommand{\abstractauthorfont}{}{}
 \DeclareDocumentCommand{\abstracttitlefont}{}{}
-\newcommand{\resumename}{Résumé}
+\newcommand{\resumename}{R\'{e}sum\'{e}}
 \newcommand{\parnom}{par}
 
 \providecaptionname{german,ngerman,austrian,naustrian}{\byname}{von}
@@ -428,13 +428,13 @@ KOMA-script documentation for details.}]{fancyhdr}
 		\begin{center}
 			{\huge\textit{\resumename} \par}
 			\bigskip
-			{\normalsize \degreename \atlocation{} \facname \par} % degree and Faculty name
+			{\normalsize Stage de seconde ann\'{e}e \`{a} \facname \par} % degree and Faculty name
 			\bigskip
-			{\normalsize \subtitlename \par} % theme of internship
+			{\normalsize Evitement d'obstacles avec g\'en\'eration robuste de trajectoire \par} % theme of internship
 			\bigskip
-			{\normalsize\bfseries \@title \par} % Thesis title
+			{\normalsize\bfseries Rapport de stage \par} % Thesis title
 			\medskip
-			{\normalsize \byname{} \authorname \par} % Author name
+			{\normalsize \parnom{} \authorname \par} % Author name
 			\bigskip
 		\end{center}
 	}
