@@ -29,10 +29,10 @@
 %---------------------
 
 \section{Code Refactoring}
-When working with new code, the first thing to do is to understand it. Then, you must do the necessary modifications.
+When working with new code, the first thing to do is to understand it, and then bring the necessary modifications.
 \subsection{Understanding the code}
-When I arrived at IRI, another student was already working on applying particle filtering on a robot simulation.
-He was doing his third-year internship and was working at the IRI since March. He based his work on Mr Jaulin's latest research: \parencite{Base}.
+At the beginning of the internship at IRI, another student was already working on applying particle filtering to a robot simulation.
+He was performing his third year internship and was working at the IRI since March. He based his work on Mr Jaulin’s latest research:  \parencite{Base}.
 %describe and expand
 
 When first discovered, the code was mainly organized in three parts:
@@ -45,9 +45,9 @@ When first discovered, the code was mainly organized in three parts:
 The interval class was directly inspired by Mr Jaulin's works and courses \parencite{IAMOOC}.
 It's a simple class enabling the use of Interval analysis in Matlab, by creating a new object, and overloading the standard comparators and operators.\\
 
-As such, this new object is in fact defined by a couple upper bound and lower bound for each dimension we are in.
-In this case, the simulation we work on is two dimensional, so the intervals have two bounds of each kind.
-\subsubsection{The Box particle filtering}
+As such, this new object is in fact defined by a couple upper bound and lower bound for each dimension.
+In this case, the simulation is two dimensional, so the intervals have two bounds of each kind.
+\subsubsection{The Box Particle Filtering}
 "Resulting from the synergy between the sequential Monte Carlo method and interval analysis, box particle filtering is an approach that has recently emerged and is aimed at solving a general class of nonlinear filtering problems.
 This approach is particularly appealing in practical situations involving imprecise stochastic measurements that result in very broad posterior densities.\\
 
@@ -64,7 +64,7 @@ Two more files are used in the program.\\
 In the environment file, all the variables needed at the start of the program,
  such as the trajectory, the number of boxes, or the length of the simulation are defined.\\
 
-The Mainbox file is simply the main loop, and the one where the graphical interface is created. It's no more than printing the trajectories for the real and the self-perceived bots.
+The Mainbox file is simply the main loop and the one where the graphical interface is created. It's no more than printing the trajectories for the real and the self-perceived bots.
 
 \subsection{Changing the way it works}
 The first thing to do was to change completely how the main loop worked.
@@ -74,33 +74,33 @@ The new system needed to be robust, simple and calculate step after step.\\
 \centering
 \includegraphics{Figures/Loops}
 \decoRule
-\caption[Direct and controled loops]{How the new control loop was implemented.}
+\caption[Direct and controlled loops]{How the new control loop was implemented.}
 \label{fig:Loops}
 \end{figure}
 
 In the first program, the point of interest was measuring the position and the speed of the robot.
-The system had no feedback loop, so there was no need to calculate step by step. All the calculation for the robot's position and movement were done before the program's actual work began.
+The system had no feedback loop, so there was no need to calculate step by step. All the calculation for the robot's position and movement were done before the program began to work.
 The new feedback loop needed all the parameters from a step to calculate the next one.\\
 
 Information from the consign trajectory and the self-perceived robot were used to calculate the real position of the robot.
 The real position was then used to infer the new self-perceived position, feeding the loop again.
-As seen in Figure \ref{fig:Loops}, this adds a level of complexity to the program.\\
+As seen in Figure \ref{fig:Loops}, this added a level of complexity to the program.\\
 
 From one point to another, the system had many calculations to do, primarily due to the BPF.
 Indeed, the BPF is a system which needs a lot of diverse points to operate efficiently. A sample size of 2000 points was sometimes reached.
-My feedback loop and control system needed to be light and fast, or it would have slowed the program even more.\\
+The new feedback loop and control system needed to be light and fast, or it would have slowed the program even more.\\
 
 
-\section{Simple control}
-After the new loop was added, I had to modify the informations sent from one part of the loop to another.
+\section{Simple Control}
+After the new loop was added, the information sent from one part of the loop to another had to be changed.
 
-\subsection{Adding precision}
-Before the work on control algorithm started, I had discovered that the information returned by the BPF were much more precise than simply using the sensor's feed, but consistency was lacking.
+\subsection{Adding Precision}
+Before the work on control algorithm started, it has been noted that the information returned by the BPF were much more precise than simply using the sensor's feed, but consistency was lacking.
 Indeed, from one step to another, the BPF could render highly different results, and it would cause the real robot behaving erratically.
-To compensate, a low-pass filter was added, by using a sliding median of the last five values instead of only the last one.\\
+To compensate, a low-pass filter was added, by using a sliding median of the last five values instead of the last one only.\\
 
 Although such a system means that the correction is a bit late, it suppresses most of the erratic behaviour from the self-perceived bot.
-Giving more weight to the last value was tested, but the erratic behaviour came back with too much force, so the idea was dropped.
+Increase of the weight of the last value was tested, but the erratic behaviour occurred too frequently, so the idea was dropped.
 More tests were made with a sliding median on more or less values, but five was the best compromise.
 The system was only around two steps late, so about 1/10th of a second.\\
 
@@ -110,7 +110,7 @@ That kind of differences means that, on real robots, sudden spikes and outliers 
 Sadly, on this simulation, the sensor rate was limited by the BPF calculation rate.
 Eventually, I used a sliding median, but the trade-off was the slight lateness of the control algorithm.\\
 
-\subsection{Testing methods and taking control}
+\subsection{Testing Methods and Taking Control}
 
 The new loop, at the beginning, did nothing more than transmitting information from one part of the program to another.
 At first, a simple proportional control was added. A divergence from the original trajectory was met by a correction proportional to the deviation.
@@ -118,7 +118,7 @@ At first, a simple proportional control was added. A divergence from the origina
 This system was too unstable or too slow.
 As it is often the case for proportional control, the bot would either overshoot, or not be able to reach the designated trajectory.\\
 
-The next step was using a proportional derivative method. This solved the overshoot problems I had, and the corrections were much faster.
+The next step was using a proportional derivative method. This solved the observed overshoot problems, and the corrections were much faster.
 This system was based on a feedback linearization, as described in \parencite{ROBMOOC}.
 It was implemented in a simple way, by adding a control variable named U.\\
 
@@ -135,7 +135,7 @@ In this code, we suppose the existence of a nonlinear system described by:\\
 \right .
 \end{equation}
 
-This system describes the movements of our simulated robot. By differenciating $y_i$ until inputs are involved inthe expression of the derivative, we obtain:
+This system describes the movements of our simulated robot. By differenciating $y_i$ until inputs are involved in the expression of the derivative, we obtain:
 
 \begin{equation}
   \begin{pmatrix}
@@ -153,45 +153,46 @@ If we suppose that $A$ is invertible, we can write:
   u = A^{-1}(x)(v - b(x))
 \end{equation}
 
-Thus, going back to the code \ref{controlcode}, each member of the equation \ref{eq2} can be joined with the similarly named variable in the code.\\
+Thus, going back to the code \ref{controlcode}, each member of the equation \ref{eq2} can be linked to the similarly named variable in the code.\\
 
 Once the control loop has been established, we need to add it in a main loop.
 
-The Main loop in this program is copied here :\\
+The Main loop in this program is:\\
 
 \input{Code/code1}
 
 As seen in this code, each step of trajectory calculation is immediately followed by a step of BPF on the information given by the simulated sensors. \\
 
 
-As a side note, I also tried to adapt a H-infinity control method, but a few problems blocked my way.
-The more evident one was that the model I used was far from enough for this method to yield good results.
-And of course, the use of a BPF resulted sometimes in singularities or in a kind of saturation that rendered the method completely unusable.
+As a side note, I also tried to adapt a H-infinity control method, but a few problems occurred.
+The most evident of which being that the model wasn't adapted at all for this method to yield good results.
+And of course, the use of a BPF sometimes resulted in singularities or in a kind of saturation that completely discarded this method.
 
 
 \section{Obstacle Avoidance}
-Now that the robot was able to follow a trajectory, with more or less success, depending on the precision reached by the BPF, it needed to avoid obstacles and walls.
+Now that the robot was able to follow a trajectory, with relative success, depending on the precision reached by the BPF, it needed to avoid obstacles and walls.
 
 
-\subsection{Trials and errors}
+\subsection{Trials and Errors}
 
 One of the best ways to avoid obstacles in a partially known environment is a vector field.
-In my case, I had to add the right vector to the vector I had already created with the control system.\\
+In this case, the right vector had to be added to the vector already created with the control system.\\
 
-My first try was simply by adding repulsive vectors stemming from boxes colliding with a wall.
+The first try was simply adding repulsive vectors stemming from boxes colliding with a wall.
 This test was far from successful, since the self-perceived robot, a bit late because of the low-pass filter, would often make a U-turn, and completely lose itself.
-Indeed, the vector field, radiating only from colliding boxes, would overrun the control vector and push back the robot until the robot was far enough from the consign for shenanigans to ensue.
+Indeed, the vector field, radiating only from colliding boxes,
+ would overrun the control vector and push back the robot until the robot is far enough from the consign for unexpected behaviour to occur.
 
-I then tried to use various parts of the map, first creating a single vector, then with multiple vectors, but I then determined that I had to use the whole known surroundings.
+Various parts of the map have then been tried, first creating a single vector, then with multiple vectors, but it appeared that the whole known surroundings have to be used.
 
-\subsection{Creating a vector field}
+\subsection{Creating a Vector Field}
 \label{vectf}
 
-I had to devise a way for the robot to be aware of his surroundings as a whole.\\
+The point was to devise a way for the robot to be aware of his surroundings as a whole.\\
 
 \input{Code/fieldmat}
 
-I created a small sub-program able to infer a repulsive vector field from an image of the obstacles.\\
+A small sub-program able to infer a repulsive vector field from an image of the obstacles has been created.\\
 
 \begin{figure}[H]
 \centering
@@ -213,8 +214,8 @@ I created a small sub-program able to infer a repulsive vector field from an ima
  \label{fig:quiver2}
  \end{figure}
 
- After that, a gaussian blur is added to the matrix, using a bigger parameter on the obstacle parts than on the free parts of the playground.
- This ensures that, if the self-perceived robot gets in an obstacle, it will be met by a stronger repulsive force.
+Then, a Gaussian blur is added to the matrix, using a bigger parameter on the obstacle parts than on the free parts of the playground.
+If the self-perceived robot gets in an obstacle, it is sure that it will be met by a stronger repulsive force.
  The result of the blur can be seen on Figure \ref{fig:quiver2}\\
 
 
@@ -223,12 +224,12 @@ I created a small sub-program able to infer a repulsive vector field from an ima
 
 \section{Graphic User Interface}
 
-Since my work was a bit tedious on something so dry, I decided to add a graphical interface.
+Since the task was a bit tedious on something so dry, I decided to add a graphical interface.
 
-\subsection{Adding an interface}
+\subsection{Adding an Interface}
 
-In this interface, I decided first to add the choice to show each component separately. Checkboxes enable the visualisation of the robot, the environment, the boxes or the landmarks.
-Those choices will be reflected on the visualisation after clicking on show.\\
+In this interface, my choice was first to offer the option to show each component separately. Checkboxes enable the visualization of the robot, the environment, the boxes or the landmarks.
+Those choices will be reflected on the visualization after clicking on show.\\
 
 The simulation length and the percentile of boxes shown can be adjusted via two sliders.
 Those are useful to mitigate the precision of the simulation with the time spent on calculations.\\
@@ -237,16 +238,16 @@ Those are useful to mitigate the precision of the simulation with the time spent
 \centering
 \includegraphics[scale=0.7]{Figures/Gui}
 \decoRule
-\caption[Gui]{Full GUI for the algorithm}
+\caption[GUI]{Full GUI for the algorithm}
 \label{fig:gui}
 \end{figure}
 
 Part of the challenge of the algorithm was to make it reliable enough for it to run in any environment.
-I then added a graphical way to change the place of the obstacles, to test the program in all the possibilities.
+A graphical way to change the place of the obstacles allows testing the program in all the possibilities.
 It did prove quite useful, since it was how the vector field coefficients were adjusted.
 
 
-\subsection{The full program}
+\subsection{Full Program}
 
 The program is now organized in four parts:
 \begin{itemize}
@@ -255,17 +256,17 @@ The program is now organized in four parts:
   \item the Vector field
   \item the GUI
 \end{itemize}
-Even though the first two have the same inner workings than at the beginning, the last two are new.
+Even though the first two partswork as initially defined, the last two are new.
 
-\subsubsection{the Vector field}
+\subsubsection{Vector Field}
 
 As mentioned in \ref{vectf}, a subprogram was added to create the necessary vector field.
 This program can be called at any moment, and will create a vector field with any size of matrix.
-If the size of the playground or the boxes changes, this program will still be able to work.
+Whatever the size of the playground or the boxes, this program will still be able to work.
 
-\subsubsection{the GUI}
+\subsubsection{GUI}
 
-Due to Matlab's way, the new main is simple.m, the file containing the GUI description.
+According to Matlab's way, the new Main is simple.m, the file containing the GUI description.
 Part of the Main was tranferred in this new file, and part of the envionment file can now also be found there.\\
 
 This is due to the variables that can be adjusted in the GUI.
